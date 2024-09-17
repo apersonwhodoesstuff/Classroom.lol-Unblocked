@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classroom.lol - Fun Learning Games</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            text-align: center;
+            color: #FF6347;
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        .game-button {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .game-button:hover {
+            background-color: #45a049;
+        }
+        #gameEmbed {
+            width: 100%;
+            height: 600px;
+            border: none;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        #backButton {
+            display: none;
+            background-color: #3498db;
+            color: white;
+            padding: 10px 15px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Classroom.lol</h1>
+        <div id="gameButtons"></div>
+        <iframe id="gameEmbed" style="display:none;"></iframe>
+        <button id="backButton">Back to Game List</button>
+    </div>
+
+    <script>
+        // Define your games here
+        const games = [
+            { name: "The Impossible Quiz", url: "https://geuddd.github.io/embed-games/" },
+            { name: "Case Clicker", url: "https://bigfourwanskie.github.io/UnblockedCaseClickerv2/" },
+            { name: "Monkey Mart", url: "https://prxyboss101.github.io/monkey-mart/" },
+            { name: "Drive Mad", url: "https://academics-study.github.io/drive-mad/" },
+            { name: "Crazy Cars", url: "https://iliill1.github.io/CrazyCars/" },
+            { name: "FNAF", url: "https://google-opensocial.googleusercontent.com/gadgets/ifr?container=ig&url=https://s3.amazonaws.com/production-assetsbucket-8ljvyr1xczmb/1ee20621-61bc-4ec8-a8ec-5e839c2e6edc/five-nights-at-freddy-s.xml" },
+            { name: "YoHoHo.io", url: "https://whatchareadin.de/themes/yoho/" },
+            { name: "Angy Gran Run", url: "https://webglmath.github.io/angry-gran-run/" },
+            { name: "Iron Snout", url: "https://s3.eu-central-1.amazonaws.com/snoutupgames/ironsnout/index.html" },
+            { name: "Bitlife", url: "https://google-opensocial.googleusercontent.com/gadgets/ifr?container=ig&url=https://cdn.jsdelivr.net/gh/sk1bx/awesome-aws@37c682c65a5a4c1ddc5b5ff2b840924526f209b4/scripts/blf.xml" },
+            { name: "Blade Ball", url: "https://google-opensocial.googleusercontent.com/gadgets/ifr?container=ig&url=https://s3.amazonaws.com/production-assetsbucket-8ljvyr1xczmb/9ecda005-11e9-4b52-ab9e-700b4d46d00f/blb.xml" },
+            { name: "Bloons", url: "https://google-opensocial.googleusercontent.com/gadgets/ifr?container=ig&url=https://s3.amazonaws.com/production-assetsbucket-8ljvyr1xczmb/8c491f21-7353-4f1f-b2a0-9544824c4d28/bloons.xml" },
+            { name: "Murder", url: "https://google-opensocial.googleusercontent.com/gadgets/ifr?container=ig&url=https://s3.amazonaws.com/production-assetsbucket-8ljvyr1xczmb/f107b843-3661-4036-9397-2b0c6414a369/murder.xml" },
+            { name: "Roblox Obby", url: "https://google-opensocial.googleusercontent.com/gadgets/ifr?container=ig&url=https://s3.amazonaws.com/production-assetsbucket-8ljvyr1xczmb/9ecda005-11e9-4b52-ab9e-700b4d46d00f/obby.xml" },
+            { name: "Paint.io", url: "https://google-opensocial.googleusercontent.com/gadgets/ifr?container=ig&url=https://cdn.jsdelivr.net/gh/bessiegasbarro/paint@c83fba287b56eed6b55a5989f3e94c57e3ff35c0/paint.xml" },
+            { name: "Paper io 3d", url: "https://script.google.com/macros/s/AKfycbxHiTGRnW2DlsogC3ETEPabSkYGp_8c6RqGdjyD7_7Jca65LszPobm60W1wJYyl5X_v/exec" },
+            { name: "Penguin io", url: "https://google-opensocial.googleusercontent.com/gadgets/ifr?container=ig&url=https://cdn.jsdelivr.net/gh/gertdoro/Kubeflow@a4cad845becd2a794dc59bbf5bfff375c5dae041/admission-webhook/examples/penguin.xml" },
+            { name: "Jonny Trigger", url: "https://images-opensocial.googleusercontent.com/gadgets/ifr?container=ig&url=https://cdn.jsdelivr.net/gh/yrgen73/Jtrigger@3d4eb8d328bab8af057daa77acd4cee7608f1ec1/jt.xml" },
+            { name: "Snowball io", url: "https://images-opensocial.googleusercontent.com/gadgets/ifr?container=ig&url=https://cdn.jsdelivr.net/gh/gertdoro/SQLite4Unity3d@8516fc0bd1d2be662ca484f5dc506268b24763ef/Example/Assets/snowball.xml" },
+            { name: "Fishing io", url: "https://images-opensocial.googleusercontent.com/gadgets/ifr?container=ig&url=https://43868287-283533260613887793.preview.editmysite.com/uploads/b/8156145-741051280210564939/files/fio.xml" },
+            { name: "Fire Balls", url: "https://images-opensocial.googleusercontent.com/gadgets/ifr?container=ig&url=https://cdn.jsdelivr.net/gh/gertdoro/Pocketsphinx@4bb3d8ab52810f8bbd23710b3468d0228a1b4551/swig/fireball.xml" },
+            { name: "Basket Random", url: "https://images-opensocial.googleusercontent.com/gadgets/ifr?container=ig&url=https://googleusercontent.b-cdn.net/basket-random/basran.xml" },
+            { name: "Roblox Strongman Simulator", url: "https://script.google.com/macros/s/AKfycbxLkugSSEdQm0qJQ4PZWRce6p8pKpuPdLIFeivG0cMt-QmjEjedBCarzz_kd2tlvxzs/exec" },
+            { name: "Balls and Bricks", url: "https://images-opensocial.googleusercontent.com/gadgets/ifr?container=ig&url=https://35310661-713299160685702142.preview.editmysite.com/uploads/b/1285710-351987768514667200/files/bab.xml" },
+            { name: "Ahoy Survival", url: "https://images-opensocial.googleusercontent.com/gadgets/ifr?container=ig&url=https://cdn.jsdelivr.net/gh/gertdoro/UnityExplorer@bb8f4595bd538d662c055a6e8effa1c8ce9e0a5e/ObjectExplorer/Ahoy.xml" },
+            { name: "Air Dash", url: "https://script.google.com/macros/s/AKfycbyozMn8o0HSfLj_2SGeivA2vPYOnGtvo9tDkbnnYGdF4CV-JkKjU7Y4-N-aF9RIGfpkHA/exec" },
+            { name: "Angry Birds", url: "https://images-opensocial.googleusercontent.com/gadgets/ifr?container=ig&url=https://cdn.jsdelivr.net/gh/gertdoro/UnityExplorer@30e7601c53b57634d2288fd993d8baaeae060eb2/CSConsole/Lexers/ab.xml" },
+            { name: "Slope", url: "https://images-opensocial.googleusercontent.com/gadgets/ifr?container=ig&url=https://cdn.jsdelivr.net/gh/yrgen73/htmlpurifier@437e9c42eb436f6d20a0edca73fa4988e1a9c235/plugins/fb.xml" },
+            { name: "Blumgi Rocket", url: "https://webglmath.github.io/blumgi-rocket/" },
+            { name: "Rooftop Snipers", url: "https://webglmath.github.io/rooftop-snipers/" },
+            { name: "Roblox Color Rush", url: "https://images-opensocial.googleusercontent.com/gadgets/ifr?container=ig&url=https://s3.amazonaws.com/production-assetsbucket-8ljvyr1xczmb/9ecda005-11e9-4b52-ab9e-700b4d46d00f/color.xml" },
+            { name: "Roblox Color Block", url: "https://script.google.com/macros/s/AKfycbxgvGKRGAK0tapw1DFMdqRTCy7ZIeflPwXyFQJhlViu8SDZILUOmQmec1Bz9cIhLVCA/exec" },
+            { name: "Fruit Ninja", url: "https://script.google.com/macros/s/AKfycbwzewrpMx9gWhhnciarDGlL-swUEfQwsX-eFwX_wCRpQbNis2rZKPXm1UOe0Dm-m6h2/exec" },
+            { name: "Knife Hit", url: "https://script.google.com/macros/s/AKfycbz5PQilBPCJ7pnclZJ_v9eZclchYyuxpEyP1pHy5kWSq9bimjnk4IvjTjVY2tvH2edF/exec" },
+            { name: "Neon Runner", url: "https://script.google.com/macros/s/AKfycby-ZjaUeOurrOZfE8b5MI8IP5CXPcRi-_6XGEG-jgTscmZQqxW7kuLpBjFRYQb5d5N9/exec" },
+            { name: "Ragdoll io", url: "https://images-opensocial.googleusercontent.com/gadgets/ifr?container=ig&url=https://cdn.jsdelivr.net/gh/gertdoro/Kubeflow@93a57fae5af5600e3c11b8be57f04f78dfed630c/conformance/1.5/ragio.xml" },
+            { name: "Sling Drift", url: "https://images-opensocial.googleusercontent.com/gadgets/ifr?container=ig&url=https://cdn.jsdelivr.net/gh/gertdoro/IoC-framework@9051e5adc7384a666690a2babfc429abc2064048/Sling.xml" },
+            { name: "1v1.lol", url: "https://book-opensocial.googleusercontent.com/gadgets/ifr?container=ig&url=https://cdn.jsdelivr.net/gh/mind4ur/debugactions@0c449453ccad555fac7e0d86ddc031d476f1f209/edit/n.xml" },
+            { name: "Paper io 2", url: "https://images-opensocial.googleusercontent.com/gadgets/ifr?container=ig&url=https://cdn.jsdelivr.net/gh/bobydob/JSEngine@b8b8a03997f38305098c2f2f5fe14907463cd23b/build/ppo2/ppo2.xml" },
+            { name: "A Small World Cup", url: "https://apersonwhodoesstuff.github.io/a-small-world-cup/" },
+            
+           
+            
+            
+            
+            
+            
+        ];
+
+        const gameButtons = document.getElementById('gameButtons');
+        const gameEmbed = document.getElementById('gameEmbed');
+        const backButton = document.getElementById('backButton');
+
+        function createGameButtons() {
+            games.forEach((game, index) => {
+                const button = document.createElement('button');
+                button.textContent = game.name;
+                button.className = 'game-button';
+                button.onclick = () => loadGame(index);
+                gameButtons.appendChild(button);
+            });
+        }
+
+        function loadGame(index) {
+            gameButtons.style.display = 'none';
+            gameEmbed.style.display = 'block';
+            gameEmbed.src = games[index].url;
+            backButton.style.display = 'block';
+        }
+
+        backButton.onclick = () => {
+            gameButtons.style.display = 'block';
+            gameEmbed.style.display = 'none';
+            gameEmbed.src = '';
+            backButton.style.display = 'none';
+        };
+
+        createGameButtons();
+    </script>
+</body>
+</html>
